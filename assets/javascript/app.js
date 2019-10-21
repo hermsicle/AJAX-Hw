@@ -10,16 +10,13 @@ var topics =
     ]
 
 
-function btn() {
-    for (var i = 0; i < topics.length; i++) {
-        //console.log(topics[i]);
-        var buttons = topics[i]
-        $('.btn-container').append('<button>' + buttons + '</button>');
-        $('<button>' + buttons + '</button>').attr('id', 'btnId')
-    }
-}
-btn();
 
+for (var i = 0; i < topics.length; i++) {
+    //console.log(topics[i]);
+    var buttons = topics[i]
+    $('.btn-container').append('<button>' + buttons + '</button>');
+    $('<button>' + buttons + '</button>').attr('id', 'btnId')
+}
 
 
 $('button').on('click', function () {
@@ -28,16 +25,17 @@ $('button').on('click', function () {
 
     const queryUrl = 'https://api.giphy.com/v1/gifs/search?q=' + food +
 
-        '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw&q=food&limit=10&offset=0&rating=G&lang=en';
+        '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw&q=cat&limit=10';
 
     $.ajax({
         method: 'GET',
         url: queryUrl,
         datatype: JSON,
-    }).then(function (data) {
-        console.log(data);
+    }).then(function (response) {
+        var results = (response.data[0].images.fixed_height)
+        console.log(response.data[0].images.fixed_height);
+        $('.gif-container').prepend(results)
+
     })
-
 })
-
 
