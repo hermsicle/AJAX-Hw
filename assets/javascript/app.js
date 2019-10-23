@@ -2,12 +2,13 @@ $(document).ready(function () {
     createBtn();
 })
 
+
 //Create a function that loops through the array and create button.
 function createBtn() {
     var topics =
         [
             'apple', 'carrot', 'watermelon', 'avocado', 'cucumber', 'asparagus', 'celery', 'broccoli',
-            'banana', 'corn', 'mushrooms', 'pinapple', 'pumpkin', 'cocounut', 'kiwi'
+            'banana', 'corn', 'mushrooms', 'pinapple', 'pumpkin', 'coconut', 'kiwi'
         ]
     for (var i = 0; i < topics.length; i++) {
         var btn = $("<button>" + topics[i] + "</button>");
@@ -17,11 +18,6 @@ function createBtn() {
         btn.appendTo("#buttons");
     }
 }
-
-$('<button>').on('click', function () {
-    displayGifs();
-})
-
 
 function displayGifs(topic) {
     //var topic = $(this).attr('data-name'); 
@@ -34,11 +30,26 @@ function displayGifs(topic) {
     }).then(function (response) {
         var results = response.data;
         for (var i = 0; i < results.length; i++) {
-            var img = $('<img>');
-            var imgURL = results[i].images.fixed_height.url;
-            img.attr('src', imgURL);
-            $('#gif-container').prepend(img);
+            //Create a if statement for rating 
+            if (results[i].rating !== 'r' && results[i].rating !== 'pg-13') {
+                //Creating a div for the gif
+                var gifDiv = $('<div>');
+                //Soring the results items rating
+                var rating = results[i].rating;
+                //Create a paragraph tag with the results rating
+                var p = $('<p>').text("Rating: " + rating);
+                var img = $('<img>');
+                var imgURL = results[i].images.original_still.url; //this is the still URL 
+                img.attr('src', imgURL);
+                gifDiv.append(p);
+                gifDiv.append(img);
+                $('#gif-container').prepend(gifDiv);
+            }
         }
     })
 }
+
+
+
+
 
