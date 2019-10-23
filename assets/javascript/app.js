@@ -2,8 +2,6 @@ $(document).ready(function () {
     createBtn();
 })
 
-
-
 //Create a function that loops through the array and create button.
 function createBtn() {
     var topics =
@@ -20,24 +18,26 @@ function createBtn() {
     }
 }
 
+$('<button>').on('click', function () {
+    displayGifs();
+})
+
 
 function displayGifs(topic) {
-    //var topic = $(this).attr('data-name');
+    //var topic = $(this).attr('data-name'); 
     const queryUrl = 'https://api.giphy.com/v1/gifs/search?q=' +
         topic + '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw&limit=10&offset=0&rating=G&lang=en';
-    const api_key = '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw';
+    //const api_key = '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw';
     $.ajax({
         method: 'GET',
         url: queryUrl,
     }).then(function (response) {
-        if (response.data.length > 1) {
-            for (var i = 1; i < 9; i++) {
-                var results = response.data;
-                var img = $('<img>');
-                var imgURL = results[i].images.fixed_height.url;
-                img.attr('src', imgURL);
-                $('#gif-container').append(img);
-            }
+        var results = response.data;
+        for (var i = 0; i < results.length; i++) {
+            var img = $('<img>');
+            var imgURL = results[i].images.fixed_height.url;
+            img.attr('src', imgURL);
+            $('#gif-container').prepend(img);
         }
     })
 }
