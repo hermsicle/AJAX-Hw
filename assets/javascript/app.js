@@ -22,7 +22,7 @@ function createBtn() {
 
 
 function displayGifs(topic) {
-    var topic = $(this).attr('data-name');
+    //var topic = $(this).attr('data-name');
     const queryUrl = 'https://api.giphy.com/v1/gifs/search?q=' +
         topic + '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw&limit=10&offset=0&rating=G&lang=en';
     const api_key = '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw';
