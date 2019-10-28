@@ -1,55 +1,80 @@
 $(document).ready(function () {
-    createBtn();
-})
+    //Array for searched topics to be added
+    var topics = [];
 
+    function displayGifs() {
+        var x = $(this).data('search');
+        console.log(x);
+    
+        const queryUrl = 'https://api.giphy.com/v1/gifs/search?q=' +
+            x + '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw&limit=10&offset=0&rating=G&lang=en';
 
-//Create a function that loops through the array and create button.
-function createBtn() {
-    var topics =
-        [
-            'apple', 'carrot', 'watermelon', 'avocado', 'cucumber', 'asparagus', 'celery', 'broccoli',
-            'banana', 'corn', 'mushrooms', 'pinapple', 'pumpkin', 'coconut', 'kiwi'
-        ]
-    for (var i = 0; i < topics.length; i++) {
-        var btn = $("<button>" + topics[i] + "</button>");
-        btn.addClass("jsonData");
-        btn.attr("data-name", topics[i]);
-        btn.attr("onclick", "displayGifs('" + topics[i] + "')");
-        btn.appendTo("#buttons");
-    }
-}
-
-function displayGifs(topic) {
-    //var topic = $(this).attr('data-name'); 
-    const queryUrl = 'https://api.giphy.com/v1/gifs/search?q=' +
-        topic + '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw&limit=10&offset=0&rating=G&lang=en';
-    //const api_key = '&api_key=OvLuQaaXhKQu4K1uM7YL7gXdvstfNCiw';
-    $.ajax({
-        method: 'GET',
-        url: queryUrl,
-    }).then(function (response) {
-        var results = response.data;
-        for (var i = 0; i < results.length; i++) {
-            //Create a if statement for rating 
-            if (results[i].rating !== 'r' && results[i].rating !== 'pg-13') {
-                //Creating a div for the gif
-                var gifDiv = $('<div>');
-                //Soring the results items rating
-                var rating = results[i].rating;
-                //Create a paragraph tag with the results rating
-                var p = $('<p>').text("Rating: " + rating);
-                var img = $('<img>');
-                var imgURL = results[i].images.original_still.url; //this is the still URL 
-                img.attr('src', imgURL);
-                gifDiv.append(p);
-                gifDiv.append(img);
-                $('#gif-container').prepend(gifDiv);
+        $.ajax({
+            method: 'GET',
+            url: queryUrl,
+        }).then(function (response) {
+            var results = response.data;
+            for (var i = 0; i < results.length; i++) {
+                    var gifDiv = $('<div>');
+                    var rating = results[i].rating;
+                    var p = $('<p>').text("Rating: " + rating);
+                    var img = $('<img>');
+                    var imgURL = results[i].images.original_still.url; //this is the still URL
+                    var gifURL = results[i].images.fixed_height.url; //moving gif
+                    img.addClass('gif');
+                    img.attr('data-state', 'still');
+                    img.attr('data-animate', gifURL);
+                    img.attr('data-still' , imgURL);
+                    img.attr('src', imgURL);
+                    gifDiv.append(p);
+                    gifDiv.append(img);
+                    $('#gif-container').prepend(gifDiv);
             }
+        })
+    }
+    
+
+    //Submit button click event takes search term from form input, trims and pushes to topics array, displays button
+    $("#addFruit").on("click", function (event) {
+        event.preventDefault();
+        var newFruit = $("#user-input").val().trim();
+        topics.push(newFruit);
+        console.log(topics);
+        $("#user-input").val('');
+        displayButtons();
+    });
+
+    //Function iterates through topics array to display button with array values in "myButtons" section of HTML
+    function displayButtons() {
+        $("#myButtons").empty();
+        for (var i = 0; i < topics.length; i++) {
+            var a = $('<button class="btn btn-primary">');
+            a.attr("id", "fruit");
+            a.attr("data-search", topics[i]);
+            a.text(topics[i]);
+            $("#myButtons").append(a);
         }
-    })
-}
+    }
 
 
+    displayButtons();
 
+    //Click event on button with id of "fruit" executes displayNetflixShow function
+    $(document).on("click", "#fruit", displayGifs);
 
+    //Click event on gifs with class of "gif" executes pausePlayGifs function
+    $(document).on("click", ".gif", pausePlayGifs);
 
+    //Function accesses "data-state" attribute and depending on status, changes image source to "data-animate" or "data-still"
+    function pausePlayGifs() {
+        var state = $(this).attr("data-state");
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+    }
+
+});
