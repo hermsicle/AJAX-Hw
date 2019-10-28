@@ -1,0 +1,48 @@
+
+
+.btnContainer {
+    margin-bottom: 10px;
+}
+
+#fruit {
+    color: white;
+    background-color: teal;
+    padding: 10px;
+    font-family: 'Anton', sans-serif;
+    font-weight: bold;
+}
+
+#text-input {
+    font-size: 20px;
+    color: teal;
+    font-weight: bold;
+}
+
+#user-input {
+    height: 28px;
+}
+
+#addFruit {
+    color: white;
+    background-color: teal;
+    padding: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.gif {
+    height: 250px;
+    width: 300px;
+    padding: 10px;
+}
+
+p {
+    font-size: 19px;
+    font-weight: bold;
+    margin-left: 10px;
+
+}
+
+body {
+    background-color: whitesmoke;
+}
