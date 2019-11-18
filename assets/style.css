@@ -1,4 +1,15 @@
+body {
+    background-image: url('../assets/images/2857e240b74eb0f.jpg')
+}
+.container {
+text-align: center;
+margin-top: 50px;
+}
 
+
+#id1 {
+    color: teal;
+}
 
 .btnContainer {
     margin-bottom: 10px;
@@ -41,8 +52,4 @@ p {
     font-weight: bold;
     margin-left: 10px;
 
-}
-
-body {
-    background-color: whitesmoke;
 }
